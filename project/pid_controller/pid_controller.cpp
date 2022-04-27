@@ -29,12 +29,12 @@ void PID::Init(double Kpi, double Kii, double Kdi, double output_lim_maxi, doubl
 void PID::UpdateError(double cte) {
    prev_cte = current_cte;
    current_cte = cte;
-   int_cte += cte;
+   int_cte += cte * delta_time;
 }
 
 double PID::TotalError() {
     double diff_cte = current_cte - prev_cte;
-    double control = -Kp * current_cte - Kd * diff_cte - Ki * int_cte;
+    double control = -Kp * current_cte - Kd * diff_cte / delta_time - Ki * int_cte;
     if (control < output_lim_min) {
       control = output_lim_min;
     } else if (control > output_lim_max) {
