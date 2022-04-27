@@ -21,6 +21,8 @@ void PID::Init(double Kpi, double Kii, double Kdi, double output_lim_maxi, doubl
   Kd = Kdi;
   output_lim_min = output_lim_mini;
   output_lim_max = output_lim_maxi;
+  current_cte = 0;
+  
 }
 
 
