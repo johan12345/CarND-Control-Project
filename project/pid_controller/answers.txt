@@ -1,7 +1,26 @@
 // Answer the following questions:
 
 // Add the plots to your report and explain them (describe what you see)
+
+The plots show the calculated errors for throttle and steering (blue) and the resulting steering output (orange) or throttle (green) and brake (orange) output.
+We see that the PID controller slowly increases the throttle setting to accelerate to the given speed. Some further tuning may be necessary to accelerate more quickly.
+For the steering, the controller balances the steering error quite well. Even though the error is always 
+Around iteration 33, the car crashes into the wall. This seems to be caused by the path planner, I couldn't solve it by tuning the PID controller parameters.
+
 // What is the effect of the PID according to the plots, how each part of the PID affects the control command?
+The proportional term takes the current error and applies a control output to counteract it.
+The derivative term reduces the output while the error approaches zero to avoid overshooting.
+The integral term counteracts a potential systematic shift of the control value. This is especially necessary for the throttle, as a throttle position of zero
+does not keep the car at a constant speed. For the steering this term can be set to a lower value because there is no significant steering drift in the simulator.
+
+
 // How would you design a way to automatically tune the PID parameters?
+The simulator could be executed many times with different PID parameters by an external script. This script would then tune the parameters incrementally
+using the Twiddle algorithm to incrementally decrease the mean absolute error.
+
 // PID controller is a model free controller, i.e. it does not use a model of the car. Could you explain the pros and cons of this type of controller?
++ PID controller is easy to implement and computationally efficient
+- PID controller needs to iteratively adapt to the behavior of the car, which means that its trajectory is not optimal. A controler that uses a model of the car would e.g. know exactly which throttle position is required to keep a constant speed so that the necessary corrections are much smaller.
+
 // (Optional) What would you do to improve the PID controller?
+It would probably be very helpful to execute the PID controller more often. Currently it seems like it is called only about every second or so, together with the path planner.
